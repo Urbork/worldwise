@@ -6,7 +6,6 @@
 - [Setup](#-setup)
 - [Usage](#-usage)
 - [Project Structure](#-project-structure)
-- [Contributing](#-contributing)
 
 ## ▶ Overview
 
@@ -16,7 +15,7 @@ WorldWise is a travel logging application that allows users to mark cities they 
 
 - Add cities with geographical coordinates
 - Automatically fetch city and country information
-- Store visited cities
+- Store visited cities with country flag emojis
 - Save and retrieve city data from local storage
 - Edit and delete saved city entries
 - Navigate between different pages using React Router
@@ -72,20 +71,17 @@ The application will be available at `http://localhost:5173/`.
 
 ```
 worldwise/
-│── public/              # Static assets
-│── src/
-│   ├── components/      # Reusable UI components
-│   ├── contexts/        # Context providers
-│   ├── hooks/           # Custom React hooks
-│   ├── pages/           # Application pages
-│   ├── styles/          # CSS modules and styles
-│   ├── App.jsx          # Main application component
-│   ├── main.jsx         # Entry point
-│── package.json         # Project dependencies
-│── vite.config.js       # Vite configuration
-│── README.md            # Project documentation
+│── public/                # Static assets (images, icons, etc.)
+│── src/                   # Source code
+│   ├── components/        # Reusable UI components
+│   ├── contexts/          # React Context providers
+│   ├── hooks/             # Custom React hooks
+│   ├── pages/             # Application pages
+│   ├── App.jsx            # Main application component
+│   ├── main.jsx           # Application entry point
+│── .gitignore             # Files to ignore in Git
+│── index.html             # Main HTML file
+│── package.json           # Project dependencies
+│── vite.config.js         # Vite configuration
+│── README.md              # Project documentation
 ```
-
-## 🤝 Contributing
-
-Contributions are welcome! If you’d like to improve the project, feel free to fork the repository and submit a pull request.
