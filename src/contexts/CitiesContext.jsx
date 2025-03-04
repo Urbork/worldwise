@@ -6,8 +6,6 @@ import {
   useReducer,
 } from "react";
 
-const BASE_URL = "http://localhost:8000";
-
 const CitiesContext = createContext();
 
 const initialState = {
@@ -57,86 +55,44 @@ function reducer(state, action) {
 }
 
 function CitiesProvider({ children }) {
-  // const [cities, setCities] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [currentCity, setCurrentCity] = useState({});
-
   const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
     reducer,
     initialState
   );
 
-  useEffect(function () {
-    async function fetchCities() {
-      dispatch({ type: "loading" });
-
-      try {
-        // setIsLoading(true);
-        const res = await fetch(`${BASE_URL}/cities`);
-        const data = await res.json();
-        // setCities(data);
-        dispatch({ type: "cities/loaded", payload: data });
-      } catch {
-        // console.log("There was an error loading cities data...");
-        dispatch({
-          type: "rejected",
-          payload: "There was an error loading cities data...",
-        });
-        // } finally {
-        //   setIsLoading(false);
-      }
-    }
-    fetchCities();
+  useEffect(() => {
+    const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
+    dispatch({ type: "cities/loaded", payload: storedCities });
   }, []);
 
-  const getCity = useCallback(
-    async function getCity(id) {
-      if (Number(id) === currentCity.id) return;
-
-      dispatch({ type: "loading" });
-
-      try {
-        // setIsLoading(true);
-        const res = await fetch(`${BASE_URL}/cities/${id}`);
-        const data = await res.json();
-        // setCurrentCity(data);
-        dispatch({ type: "city/loaded", payload: data });
-      } catch {
-        // console.log("There was an error loading city data...");
-        dispatch({
-          type: "rejected",
-          payload: "There was an error loading city data...",
-        });
-        // } finally {
-        //   setIsLoading(false);
-        // }
-      }
-    },
-    [currentCity.id]
-  );
+  const getCity = useCallback(function getCity(id) {
+    const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
+    const city = storedCities.find((city) => city.id === Number(id));
+    if (city) {
+      dispatch({ type: "city/loaded", payload: city });
+    } else {
+      dispatch({
+        type: "rejected",
+        payload: "City not found.",
+      });
+    }
+  }, []);
 
   async function createCity(newCity) {
     dispatch({ type: "loading" });
 
     try {
-      // setIsLoading(true);
-      const res = await fetch(`${BASE_URL}/cities/`, {
-        method: "POST",
-        body: JSON.stringify(newCity),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
+      const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
+      const updatedCities = [...storedCities, newCity];
 
-      // setCities((cities) => [...cities, data]);
-      dispatch({ type: "city/created", payload: data });
+      localStorage.setItem("cities", JSON.stringify(updatedCities));
+
+      dispatch({ type: "city/created", payload: newCity });
     } catch {
-      // console.log("There was an error creating city...");
       dispatch({
         type: "rejected",
         payload: "There was an error creating the city...",
       });
-      // } finally {
-      //   setIsLoading(false);
     }
   }
 
@@ -144,21 +100,17 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      // setIsLoading(true);
-      await fetch(`${BASE_URL}/cities/${id}`, {
-        method: "DELETE",
-      });
+      const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
+      const updatedCities = storedCities.filter((city) => city.id !== id);
 
-      // setCities((cities) => cities.filter((city) => city.id !== id));
+      localStorage.setItem("cities", JSON.stringify(updatedCities));
+
       dispatch({ type: "city/deleted", payload: id });
     } catch {
-      // console.log("There was an error deleting city...");
       dispatch({
         type: "rejected",
         payload: "There was an error deleting city data...",
       });
-      // } finally {
-      //   setIsLoading(false);
     }
   }
 

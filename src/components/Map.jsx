@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -24,7 +24,6 @@ function Map() {
   } = useGeolocation();
 
   const [mapLat, mapLng] = useURLPosition();
-  // console.log(lat, lng);
 
   useEffect(
     function () {
@@ -43,11 +42,9 @@ function Map() {
 
   return (
     <div className={styles.mapContainer}>
-      {/* {!geolocationPosition && ( */}
       <Button type="position" onClick={getPosition}>
         {isLoadingPosition ? "Loading..." : "Use your position"}
       </Button>
-      {/* )} */}
       <MapContainer
         className={styles.map}
         center={mapPosition}

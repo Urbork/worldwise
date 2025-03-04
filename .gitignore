@@ -23,3 +23,5 @@ starter
 *.njsproj
 *.sln
 *.sw?
+
+.vercel

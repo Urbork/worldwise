@@ -1,6 +1,4 @@
-// "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
-
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "./Form.module.css";
@@ -48,7 +46,6 @@ function Form() {
             `${BASE_URL}?latitude=${lat}&longitude=${lng}`
           );
           const data = await res.json();
-          // console.log(data);
 
           if (!data.countryCode)
             throw new Error(
@@ -76,6 +73,7 @@ function Form() {
     if (!cityName || !date) return;
 
     const newCity = {
+      id: Date.now(),
       cityName,
       country,
       emoji,
@@ -112,12 +110,6 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        {/* <input
-          id="date"
-          onChange={(e) => setDate(e.target.value)}
-          value={date}
-        /> */}
-
         <DatePicker
           id="date"
           onChange={(date) => setDate(date)}
