@@ -47,16 +47,12 @@ cd worldwise
 
 ```sh
 npm install
-# or
-yarn install
 ```
 
 ### 3. Running the Application
 
 ```sh
 npm run dev
-# or
-yarn dev
 ```
 
 The application will be available at `http://localhost:5173/`.
